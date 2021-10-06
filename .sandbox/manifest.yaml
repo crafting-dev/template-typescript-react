@@ -1,0 +1,8 @@
+hooks:
+  build:
+    cmd: yarn
+
+daemons:
+  app:
+    run:
+      cmd: 'yarn start'
