@@ -1,8 +1,10 @@
 hooks:
   build:
-    cmd: yarn
+    cmd: npm run build
 
 daemons:
   app:
     run:
-      cmd: 'yarn start'
+      cmd: npm start
+      env:
+      - PORT=3001
