@@ -1,12 +1,14 @@
+/* eslint-disable camelcase */
+
 import React, { useState } from 'react'
 import './Ping.css'
 
 function Ping(): JSX.Element {
   const [ping, setPing] = useState('')
-  const [pong, setPong] = useState({
-    ping: '',
-    received_at: '',
-  })
+  const [pong, setPong] = useState<{
+    ping: string
+    received_at: string
+  } | null>(null)
 
   const createBaseUrl = (): string => {
     const locationToMatchRegex = new RegExp('^http://localhost:[0-9]*')
