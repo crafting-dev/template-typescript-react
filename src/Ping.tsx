@@ -11,7 +11,7 @@ function Ping(): JSX.Element {
   } | null>(null)
 
   const createBaseUrl = (): string => {
-    const locationToMatchRegex = new RegExp('^http://localhost:[0-9]*')
+    const locationToMatchRegex = new RegExp('^http:\/\/localhost(:[0-9]+)?')
     if (locationToMatchRegex.test(window.location.origin)) {
       // The http://host:port that serves backend in a single endpoint setup.
       return 'http://localhost:3000'
