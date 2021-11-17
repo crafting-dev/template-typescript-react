@@ -1,12 +1,25 @@
+/* eslint-disable camelcase */
+
 import React, { useState } from 'react'
 import './Ping.css'
 
 function Ping(): JSX.Element {
   const [ping, setPing] = useState('')
-  const [pong, setPong] = useState({
-    ping: '',
-    received_at: '',
-  })
+  const [pong, setPong] = useState<{
+    ping: string
+    received_at: string
+  } | null>(null)
+
+  const createBaseUrl = (): string => {
+    const locationToMatchRegex = new RegExp('^http:\/\/localhost(:[0-9]+)?')
+    if (locationToMatchRegex.test(window.location.origin)) {
+      // The http://host:port that serves backend in a single endpoint setup.
+      return 'http://localhost:3000'
+    }
+    // The current window URL in a single endpoint setup.
+    // Backend is served via /ping path_prefix.
+    return window.location.origin
+  }
 
   const handleChange = (e: {
     target: { value: React.SetStateAction<string> }
@@ -18,7 +31,8 @@ function Ping(): JSX.Element {
     e.preventDefault()
 
     const pingServer = async (query: string) => {
-      const response = await fetch(`http://localhost:3000/ping?ping=${query}`)
+      const baseUrl = createBaseUrl()
+      const response = await fetch(`${baseUrl}/ping?ping=${query}`)
       const data = await response.json()
       setPong(data)
     }
