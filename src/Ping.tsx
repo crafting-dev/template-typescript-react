@@ -1,48 +1,35 @@
-/* eslint-disable camelcase */
+import React, { useState } from 'react';
+import './Ping.css';
 
-import React, { useState } from 'react'
-import './Ping.css'
+interface Pong {
+  ping: string;
+  received_at: string;
+}
 
-function Ping(): JSX.Element {
-  const [ping, setPing] = useState('')
-  const [pong, setPong] = useState<{
-    ping: string
-    received_at: string
-  } | null>(null)
+export function Ping() {
+  const [ping, setPing] = useState('');
+  const [pong, setPong] = useState<Pong>();
 
-  const createBaseUrl = (): string => {
-    const locationToMatchRegex = new RegExp('^http:\/\/localhost(:[0-9]+)?')
-    if (locationToMatchRegex.test(window.location.origin)) {
-      // The http://host:port that serves backend in a single endpoint setup.
-      return 'http://localhost:3000'
-    }
-    // The current window URL in a single endpoint setup.
-    // Backend is served via /ping path_prefix.
-    return window.location.origin
-  }
+  const baseUrl = /^http:\/\/localhost:[0-9]*$/.test(window.location.origin)
+    ? 'http://localhost:3000'
+    : window.location.origin;
 
-  const handleChange = (e: {
-    target: { value: React.SetStateAction<string> }
+  const handleChange = (event: {
+    target: { value: React.SetStateAction<string> };
   }) => {
-    setPing(e.target.value)
-  }
+    setPing(event.target.value);
+  };
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault()
-
-    const pingServer = async (query: string) => {
-      const baseUrl = createBaseUrl()
-      const response = await fetch(`${baseUrl}/ping?ping=${query}`)
-      const data = await response.json()
-      setPong(data)
-    }
-
-    pingServer(ping)
-  }
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const resp = await fetch(`${baseUrl}/ping?ping=${ping}`);
+    const data = await resp.json();
+    setPong(data);
+  };
 
   return (
     <div className="Ping">
-      <form>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
           onKeyDown={() => handleChange}
@@ -50,19 +37,9 @@ function Ping(): JSX.Element {
           placeholder="Ping server with some text..."
         />
         <div className="code-display">
-          <code>
-            {JSON.stringify(
-              {
-                ping,
-              },
-              null,
-              2
-            )}
-          </code>
+          <code>{JSON.stringify({ ping }, null, 2)}</code>
         </div>
-        <button type="submit" onClick={handleSubmit}>
-          Submit
-        </button>
+        <button type="submit">Submit</button>
       </form>
 
       {pong && (
@@ -80,7 +57,5 @@ function Ping(): JSX.Element {
         </div>
       )}
     </div>
-  )
+  );
 }
-
-export default Ping

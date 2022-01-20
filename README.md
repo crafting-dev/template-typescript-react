@@ -37,30 +37,64 @@ PORT=3001 npm start
 
 ## App Configuration
 
-The following [App Configuration](https://crafting.readme.io/docs/app-spec) was used to create this template:
+The following [App Definition](https://docs.sandboxes.cloud/docs/app-definition) was used to create this template:
 
-```yaml
-endpoints:
-- http:
-  routes:
-  - backend:
-      port: http
-      target: ts-react
-    path_prefix: /
-name: app
-services:
-- description: Typescript/React template
-name: ts-react
-workspace:
-  checkouts:
-  - path: src/template-typescript-react
-    repo:
-      git: https://github.com/crafting-dev/template-typescript-react.git
-  packages:
-  - name: nodejs
-    version: ~16
-  ports:
-  - name: http
-    port: 3001
-    protocol: HTTP/TCP
+```json
+{
+  "endpoints": [
+    {
+      "name": "web",
+      "hostname": "",
+      "http": {
+        "routes": [
+          {
+            "pathPrefix": "/",
+            "backend": {
+              "target": "ts-react",
+              "port": "web"
+            }
+          }
+        ],
+        "authProxy": {
+          "disabled": true,
+          "disableDefaults": false,
+          "rules": [],
+          "logoutPath": ""
+        }
+      }
+    }
+  ],
+  "workspaces": [
+    {
+      "name": "ts-react",
+      "description": "Template frontend using Ts/React",
+      "ports": [
+        {
+          "name": "web",
+          "port": 3001,
+          "protocol": "HTTP/TCP"
+        }
+      ],
+      "checkouts": [
+        {
+          "path": "frontend",
+          "repo": {
+            "git": "https://github.com/crafting-dev/template-typescript-react"
+          },
+          "versionSpec": "",
+          "recursive": false
+        }
+      ],
+      "packages": [
+        {
+          "name": "nodejs",
+          "version": "16.12.0"
+        }
+      ],
+      "portForwardRules": [],
+      "baseSnapshot": "",
+      "homeSnapshot": ""
+    }
+  ]
+}
 ```
