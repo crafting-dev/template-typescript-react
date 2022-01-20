@@ -12,7 +12,7 @@ export function Ping() {
 
   const baseUrl = /^http:\/\/localhost:[0-9]*$/.test(window.location.origin)
     ? 'http://localhost:3000'
-    : window.location.origin;
+    : process.env.REACT_APP_BACKEND_API_URL;
 
   const handleChange = (event: {
     target: { value: React.SetStateAction<string> };
