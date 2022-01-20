@@ -35,7 +35,7 @@ To run the app, you can do:
 PORT=3001 npm start
 ```
 
-## App Configuration
+## App Definition
 
 The following [App Definition](https://docs.sandboxes.cloud/docs/app-definition) was used to create this template:
 
