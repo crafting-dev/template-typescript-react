@@ -1,6 +1,6 @@
 # Typescript/React template for Crafting Sandbox
 
-This is a Typescript/[React](https://reactjs.org/) template, configured for quick development setup in [Crafting Sandbox](https://crafting.readme.io/docs).
+This is a Typescript/[React](https://reactjs.org/) template, configured for quick development setup in [Crafting Sandbox](https://docs.sandboxes.cloud/docs).
 
 ## Specifications
 
@@ -35,32 +35,33 @@ To run the app, you can do:
 PORT=3001 npm start
 ```
 
-## App Configuration
+## App Definition
 
-The following [App Configuration](https://crafting.readme.io/docs/app-spec) was used to create this template:
+The following [App Definition](https://docs.sandboxes.cloud/docs/app-definition) was used to create this template:
 
 ```yaml
 endpoints:
-- http:
-  routes:
-  - backend:
-      port: http
-      target: ts-react
-    path_prefix: /
-name: app
-services:
-- description: Typescript/React template
-name: ts-react
-workspace:
-  checkouts:
-  - path: src/template-typescript-react
-    repo:
-      git: https://github.com/crafting-dev/template-typescript-react.git
-  packages:
-  - name: nodejs
-    version: ~16
+- name: app
+  http:
+    routes:
+    - pathPrefix: "/"
+      backend:
+        target: ts-react
+        port: app
+    authProxy:
+      disabled: true
+workspaces:
+- name: ts-react
+  description: Template frontend using Ts/React
   ports:
-  - name: http
+  - name: app
     port: 3001
     protocol: HTTP/TCP
+  checkouts:
+  - path: frontend
+    repo:
+      git: https://github.com/crafting-dev/template-typescript-react
+  packages:
+  - name: nodejs
+    version: 16.12.0
 ```

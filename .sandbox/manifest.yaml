@@ -1,4 +1,6 @@
 hooks:
+  post-checkout:
+    cmd: npm install
   build:
     cmd: npm run build
 
@@ -7,4 +9,6 @@ daemons:
     run:
       cmd: npm start
       env:
-      - PORT=3001
+        - HOST=0.0.0.0
+        - PORT=3001
+        - REACT_APP_BACKEND_API_URL=https://api$SANDBOX_ENDPOINT_DNS_SUFFIX
